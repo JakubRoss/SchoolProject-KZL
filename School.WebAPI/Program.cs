@@ -1,3 +1,6 @@
+using School.WebAPI.Application;
+using School.WebAPI.Application.Interfaces;
+using School.WebAPI.Application.Services;
 using School.WebAPI.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +15,8 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("SchoolKZL");
 
 builder.Services.AddScoped<DatabaseService>(provider => new DatabaseService(connectionString));
+builder.Services.AddAutoMapper(typeof(SchoolMappingProfile));
+builder.Services.AddScoped<ITeacherServices, TeacherServices>();
 
 var app = builder.Build();
 

@@ -12,7 +12,7 @@ namespace School.WebAPI.Database
             _connectionString = connectionString;
         }
 
-        public void ExecuteNonQuery(string query, SqlParameter[] parameters = null)
+        public async Task ExecuteNonQuery(string query, SqlParameter[] parameters = null)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -29,7 +29,7 @@ namespace School.WebAPI.Database
             }
         }
 
-        public DataTable ExecuteQuery(string query, SqlParameter[] parameters = null)
+        public async Task<DataTable> ExecuteQuery(string query, SqlParameter[] parameters = null)
         {
             DataTable dataTable = new DataTable();
 
