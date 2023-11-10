@@ -18,6 +18,7 @@ builder.Services.AddScoped<DatabaseService>(provider => new DatabaseService(conn
 builder.Services.AddAutoMapper(typeof(SchoolMappingProfile));
 builder.Services.AddScoped<ITeacherServices, TeacherServices>();
 builder.Services.AddScoped<ISchoolClassesService , SchoolClassesService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 
 var app = builder.Build();
 

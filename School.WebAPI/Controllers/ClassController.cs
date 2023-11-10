@@ -36,8 +36,8 @@ namespace School.WebAPI.Controllers
             return Ok($"School class {deleteClassId} deleted successfully.");
         }
 
-        [HttpDelete("deleteStudent")]
-        public async Task<IActionResult> DeleteStudentFromClasses([FromQuery] string teacherId, [FromQuery] string classId)
+        [HttpDelete("deleteTeacher")]
+        public async Task<IActionResult> DeleteTeacherFromClasses([FromQuery] string teacherId, [FromQuery] string classId)
         {
             await _schoolClassesService.DeleteTeacherFromClases(classId, teacherId);
             return Ok($"Teacher {teacherId} deleted from class {classId}.");
@@ -62,6 +62,20 @@ namespace School.WebAPI.Controllers
         {
             await _schoolClassesService.UpdateSchoolClass(schoolClassDto, classId);
             return Ok($"School class {classId} updated successfully.");
+        }
+
+        [HttpDelete("deleteStudent")]
+        public async Task<IActionResult> DeleteStudentFromClasses([FromQuery] string studentId, [FromQuery] string classId)
+        {
+            await _schoolClassesService.DeleteStudentFromClases(classId, studentId);
+            return Ok($"Teacher {studentId} deleted from class {classId}.");
+        }
+
+        [HttpPost("AddStudent")]
+        public async Task<IActionResult> AddStudentToClass([FromQuery] string studentId, [FromQuery] string classId)
+        {
+            await _schoolClassesService.AddStudentToClass(classId, studentId);
+            return Ok($"Teacher {studentId} added to class {classId}.");
         }
     }
 }

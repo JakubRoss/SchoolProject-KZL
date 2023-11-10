@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using School.WebAPI.Application.Model.ClassModels;
+using School.WebAPI.Application.Model.Studentmodels;
+using School.WebAPI.Application.Model.StudentModels;
 using School.WebAPI.Application.Model.TeacherModels;
 using School.WebAPI.Domain.Entities;
 using System.Data;
@@ -30,6 +32,26 @@ namespace School.WebAPI.Application
 
             CreateMap<DataRow, CreateUpdateClassDto>()
                 .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src["ClassName"]));
+
+            //Students
+            CreateMap<DataRow, StudentDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src["Id"]))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src["Name"]))
+                .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src["Surname"]))
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src["DateOfBirth"]))
+                .ForMember(dest => dest.GradeAvarage, opt => opt.MapFrom(src => src["GradeAvarage"] == DBNull.Value ? 0.0f : Convert.ToSingle(src["GradeAvarage"])))
+                .ForMember(dest => dest.CalssId, opt => opt.MapFrom(src => src["ClassId"]));
+            CreateMap<DataRow, UpdateStudentDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src["Name"]))
+                .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src["Surname"]))
+                //.ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src["DateOfBirth"]))
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => ((DateTime)src["DateOfBirth"]).Date))
+                .ForMember(dest => dest.GradeAvarage, opt => opt.MapFrom(src => src["GradeAvarage"] == DBNull.Value ? 0.0f : Convert.ToSingle(src["GradeAvarage"])))
+                .ForMember(dest => dest.CalssId, opt => opt.MapFrom(src => src["ClassId"]));
+            CreateMap<DataRow, CreateStudentDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src["Name"]))
+                .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src["Surname"]))
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src["DateOfBirth"]));
         }
     }
 }
