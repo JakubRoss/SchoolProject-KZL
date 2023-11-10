@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using School.WebAPI.Application.Interfaces;
-using School.WebAPI.Application.Model;
+using School.WebAPI.Application.Model.TeacherModels;
 using School.WebAPI.Database;
 using System.Data;
 using System.Data.SqlClient;
@@ -26,7 +26,7 @@ namespace School.WebAPI.Application.Services
 
             var DataRows = new List<DataRow>();
 
-            foreach(DataRow DataRow in result.Rows)
+            foreach (DataRow DataRow in result.Rows)
             {
                 DataRows.Add(DataRow);
             }
@@ -64,7 +64,7 @@ namespace School.WebAPI.Application.Services
             await _databaseService.ExecuteNonQuery(query, parameters);
         }
 
-        public async Task UpdateTeacher(CreateTeacherDto teacherDto , string id)
+        public async Task UpdateTeacher(CreateTeacherDto teacherDto, string id)
         {
             string query = "UPDATE Teacher SET Name = @Name, Surname = @Surname, Post = @Post WHERE Id = @Id";
             SqlParameter[] parameters = new SqlParameter[]
@@ -78,7 +78,7 @@ namespace School.WebAPI.Application.Services
             await _databaseService.ExecuteNonQuery(query, parameters);
         }
 
-        
+
         public async Task DeleteTeacher(string teacherId)
         {
             string query = "DELETE FROM Teacher WHERE Id = @Id";

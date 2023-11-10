@@ -1,9 +1,10 @@
-﻿namespace School.WebAPI.Application.Model
+﻿namespace School.WebAPI.Application.Model.TeacherModels
 {
-    public class CreateTeacherDto
+    public class ReadTeacherDto
     {
         public string? Name { get; set; }
         public string? Surname { get; set; }
         public float? Post { get; set; }
+        public DateTime StartOfWork { get; set; }
     }
 }

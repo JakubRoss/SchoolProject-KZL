@@ -17,6 +17,7 @@ var connectionString = builder.Configuration.GetConnectionString("SchoolKZL");
 builder.Services.AddScoped<DatabaseService>(provider => new DatabaseService(connectionString));
 builder.Services.AddAutoMapper(typeof(SchoolMappingProfile));
 builder.Services.AddScoped<ITeacherServices, TeacherServices>();
+builder.Services.AddScoped<ISchoolClassesService , SchoolClassesService>();
 
 var app = builder.Build();
 

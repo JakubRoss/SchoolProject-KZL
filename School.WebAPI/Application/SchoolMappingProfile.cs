@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using School.WebAPI.Application.Model;
+using School.WebAPI.Application.Model.ClassModels;
+using School.WebAPI.Application.Model.TeacherModels;
 using School.WebAPI.Domain.Entities;
 using System.Data;
 
@@ -22,6 +23,13 @@ namespace School.WebAPI.Application
                 .ForMember(dest => dest.Post, opt => opt.MapFrom(src => src["Post"]))
                 .ForMember(dest => dest.StartOfWork, opt => opt.MapFrom(src => src["StartOfWork"]));
 
+            //SchoolClasses
+            CreateMap<DataRow, ClassDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src["Id"]))
+                .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src["ClassName"]));
+
+            CreateMap<DataRow, CreateUpdateClassDto>()
+                .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src["ClassName"]));
         }
     }
 }
