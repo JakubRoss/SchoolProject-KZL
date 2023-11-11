@@ -13,6 +13,7 @@ namespace School.Infrastructure.Extensions
         {
             services.AddDbContext<SchoolDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("SchoolDbConnection")));
             services.AddScoped<IBaseRepository<Student> , BaseRepository<Student>>();
+            services.AddScoped<IBaseRepository<Teacher> , BaseRepository<Teacher>>();
         }
     }
 }

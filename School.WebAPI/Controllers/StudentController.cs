@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using School.Application.Model;
-using School.Application.Services;
+using School.Application.Services.Student;
 
 namespace School.WebAPI.Controllers
 {
@@ -35,9 +35,9 @@ namespace School.WebAPI.Controllers
             return Ok();
         }
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] StudentDto studentDto)
+        public async Task<IActionResult> Delete([FromQuery] string teacherId)
         {
-            await _studentService.CreateAsync(studentDto);
+            await _studentService.DeleteAsync(teacherId);
             return Ok();
         }
     }

@@ -1,13 +1,12 @@
 ﻿using School.Application.Model;
-using School.WebAPI.Domain.Entities;
 
-namespace School.Application.Services
+namespace School.Application.Services.Student
 {
-    public interface IStudentService 
+    public interface IStudentService
     {
         Task CreateAsync(StudentDto studentDto);
         Task DeleteAsync(string studentId);
-        Task<Student> ReadAsync(string studentId);
+        Task<WebAPI.Domain.Entities.Student> ReadAsync(string studentId);
         Task UpdateAsync(StudentDto studentDto, string studentId);
     }
 }

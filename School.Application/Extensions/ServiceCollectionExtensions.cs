@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using School.Application.Model;
-using School.Application.Services;
+using School.Application.Services.Student;
+using School.Application.Services.Teacher;
 
 namespace School.Infrastructure.Extensions
 {
@@ -10,6 +11,7 @@ namespace School.Infrastructure.Extensions
         {
             services.AddScoped<IStudentService, StudentService>();
             services.AddAutoMapper(typeof(SchoolMappingProfile));
+            services.AddScoped<ITeacherService, TeacherService>();
         }
     }
 }
