@@ -40,5 +40,19 @@ namespace Cabanoss.Core.Repositories.Impl
 
             return removedEntity;
         }
+
+        //extension
+        public async Task<List<TEntity>> ReadAllAsync()
+        {
+            var list = await DbSet.ToListAsync();
+            return list;
+        }
+
+        public async Task<TEntity> ReadIncludeAsync(Expression<Func<TEntity, bool>> predicate,  Expression<Func<TEntity, object>> include)
+        {
+            var obj = DbSet.Where(predicate).Include(include);
+
+            return await obj.FirstOrDefaultAsync();
+        }
     }
 }

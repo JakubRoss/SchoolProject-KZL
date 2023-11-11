@@ -8,5 +8,8 @@ namespace Cabanoss.Core.Repositories.Impl
         Task<TEntity> DeleteAsync(TEntity entity);
         Task<TEntity> ReadAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> UpdateAsync(TEntity entity);
+
+        Task<List<TEntity>> ReadAllAsync();
+        Task<TEntity> ReadIncludeAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> include);
     }
 }

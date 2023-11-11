@@ -9,6 +9,7 @@ namespace School.Application.Model
         {
             CreateMap<StudentDto,Student>().ReverseMap();
             CreateMap<TeacherDto,Teacher>().ReverseMap();
+            CreateMap<SchoolClassDto,SchoolClass>().ReverseMap();
         }
     }
 }
