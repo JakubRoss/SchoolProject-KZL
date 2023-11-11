@@ -1,4 +1,5 @@
-﻿using Cabanoss.Core.Repositories.Impl;
+﻿using AutoMapper;
+using Cabanoss.Core.Repositories.Impl;
 using School.Application.Model;
 using School.WebAPI.Domain.Entities;
 
@@ -7,10 +8,12 @@ namespace School.Application.Services
     public class StudentService : IStudentService
     {
         private IBaseRepository<Student> _baseRepository;
+        private IMapper _mapper;
 
-        public StudentService(IBaseRepository<Student> baseRepository)
+        public StudentService(IBaseRepository<Student> baseRepository, IMapper mapper)
         {
             _baseRepository = baseRepository;
+            _mapper = mapper;
         }
         async Task<Student> GetStudent(string studentId)
         {
@@ -20,12 +23,7 @@ namespace School.Application.Services
 
         public async Task CreateAsync (StudentDto studentDto)
         {
-            var student = new Student()
-            {
-                Name = studentDto.Name,
-                Surname = studentDto.Surname,
-                DateOfBirth = studentDto.DateOfBirth,
-            };
+            var student =_mapper.Map<Student>(studentDto);
             await _baseRepository.CreateAsync(student);
         }
         public async Task<Student> ReadAsync(string studentId)
