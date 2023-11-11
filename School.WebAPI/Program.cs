@@ -1,6 +1,7 @@
-
+﻿
 
 using School.Infrastructure.Extensions;
+using School.WebAPI.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
  
 builder.Services.AddIfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
