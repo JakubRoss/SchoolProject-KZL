@@ -21,7 +21,11 @@ namespace School.WebAPI.Controllers
             await _teacherService.CreateAsync(teacherDto);
             return Ok();
         }
-
+        [HttpGet("all")]
+        public async Task<IActionResult> ReadAll()
+        {
+            return Ok(await _teacherService.ReadAllAsync());
+        }
         [HttpGet]
         public async Task<IActionResult> Read([FromQuery] string teacherId)
         {

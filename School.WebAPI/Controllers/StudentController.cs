@@ -40,5 +40,11 @@ namespace School.WebAPI.Controllers
             await _studentService.DeleteAsync(studentId);
             return Ok();
         }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> ReadAll()
+        {
+            return Ok(await _studentService.ReadAllAsync());
+        }
     }
 }

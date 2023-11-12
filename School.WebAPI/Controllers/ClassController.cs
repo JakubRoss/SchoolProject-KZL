@@ -23,11 +23,6 @@ namespace School.WebAPI.Controllers
             await _service.CreateAsync(schoolClassDto);
             return Ok();
         }
-        [HttpGet("all")]
-        public async Task<IActionResult> ReadAll()
-        {
-            return Ok(await _service.ReadAllAsync());
-        }
         [HttpGet]
         public async Task<IActionResult> Read([FromQuery] string schoolClassId)
         {
@@ -47,6 +42,11 @@ namespace School.WebAPI.Controllers
             return Ok();
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> ReadAll()
+        {
+            return Ok(await _service.ReadAllAsync());
+        }
 
         [HttpPost("students")]
         public async Task<IActionResult> AddStudent([FromQuery] string studentId ,int classId)

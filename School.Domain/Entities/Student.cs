@@ -1,4 +1,6 @@
-﻿namespace School.WebAPI.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace School.WebAPI.Domain.Entities
 {
     public class Student
     {
@@ -10,6 +12,7 @@
 
         //EF NAVIGATION
         public int? SchoolClassId { get; set; }
+        [JsonIgnore]
         public SchoolClass SchoolClass { get; set; } = default!;
 
     }

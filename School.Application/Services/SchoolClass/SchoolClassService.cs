@@ -21,14 +21,13 @@ namespace School.Application.Services.SchoolClass
             _studentBaseRepository = studentBaseRepository;
             _teacherBaseRepository = teacherBaseRepository;
         }
-
-        //CRUD SchoolClass
         async Task<WebAPI.Domain.Entities.SchoolClass> GetClass(string classId)
         {
             var student = await _baseRepository.ReadAsync(id => id.Id.ToString() == classId);
             return student;
         }
 
+        //CRUD SchoolClass
         public async Task CreateAsync(SchoolClassDto classDto)
         {
             var schoolClass = _mapper.Map<WebAPI.Domain.Entities.SchoolClass>(classDto);
@@ -51,12 +50,12 @@ namespace School.Application.Services.SchoolClass
             await _baseRepository.DeleteAsync(await GetClass(classId));
         }
 
+
+        //
         public async Task<List<WebAPI.Domain.Entities.SchoolClass>> ReadAllAsync()
         {
-            return await _baseRepository.ReadAllAsync();
-
+            return await _baseRepository.ReadAllAsync(i=>i.Students,t=>t.Teachers);
         }
-
 
         // Adding/Removing Students from SSchoolClass
 

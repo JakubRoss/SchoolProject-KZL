@@ -20,6 +20,7 @@ namespace School.Application.Services.Student
             return student;
         }
 
+        //CRUD Operations
         public async Task CreateAsync(StudentDto studentDto)
         {
             var student = _mapper.Map<WebAPI.Domain.Entities.Student>(studentDto);
@@ -38,10 +39,15 @@ namespace School.Application.Services.Student
             studentToUpdate.DateOfBirth = studentDto.DateOfBirth;
             await _baseRepository.UpdateAsync(studentToUpdate);
         }
-
         public async Task DeleteAsync(string studentId)
         {
             await _baseRepository.DeleteAsync(await GetStudent(studentId));
+        }
+
+        //
+        public async Task<List<WebAPI.Domain.Entities.Student>> ReadAllAsync()
+        {
+            return await _baseRepository.ReadAllAsync();
         }
     }
 }

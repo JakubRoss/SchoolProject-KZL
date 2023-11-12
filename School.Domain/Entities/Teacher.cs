@@ -1,4 +1,6 @@
-﻿namespace School.WebAPI.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace School.WebAPI.Domain.Entities
 {
     public class Teacher
     {
@@ -9,6 +11,7 @@
         public DateTime? StartOfWork { get; set; }
 
         //EF NAVIGATION
+        [JsonIgnore]
         public List<SchoolClass>? SchoolClasses { get; set; } = new List<SchoolClass>();
 
     }
