@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using School.Application.Interfasces;
+using School.Application.Middleware;
 using School.Application.Model;
 using School.Application.Services.SchoolClass;
 using School.Application.Services.Student;
@@ -15,6 +16,7 @@ namespace School.Infrastructure.Extensions
             services.AddAutoMapper(typeof(SchoolMappingProfile));
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<ISchoolClassService, SchoolClassService>();
+            services.AddScoped<ErrorHandlingMiddleware>();
         }
     }
 }

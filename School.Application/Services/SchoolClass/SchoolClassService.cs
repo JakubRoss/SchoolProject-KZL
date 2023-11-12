@@ -24,8 +24,10 @@ namespace School.Application.Services.SchoolClass
         }
         async Task<WebAPI.Domain.Entities.SchoolClass> GetClass(string classId)
         {
-            var student = await _baseRepository.ReadAsync(id => id.Id.ToString() == classId);
-            return student;
+            var schoolClass = await _baseRepository.ReadAsync(id => id.Id.ToString() == classId);
+            if (schoolClass == null)
+                throw new ResourceNotFoundException();
+            return schoolClass;
         }
 
         //CRUD SchoolClass
@@ -66,7 +68,7 @@ namespace School.Application.Services.SchoolClass
             var student = await _studentBaseRepository.ReadAsync(id => id.Id.ToString() == studentId);
 
             if (student == null || classWithStudents == null)
-                throw new Exception();
+                throw new ResourceNotFoundException();
 
             classWithStudents.Students.Add(student);
             await _baseRepository.UpdateAsync(classWithStudents);
@@ -79,7 +81,7 @@ namespace School.Application.Services.SchoolClass
             var student = classWithStudents.Students.FirstOrDefault(id => id.Id == Guid.Parse(studentId));
 
             if (student == null || classWithStudents == null)
-                throw new Exception();
+                throw new ResourceNotFoundException();
 
             student.SchoolClassId = null;
             await _studentBaseRepository.UpdateAsync(student);
@@ -93,12 +95,7 @@ namespace School.Application.Services.SchoolClass
             var classWithTeachers = await _baseRepository.ReadIncludeAsync(id => id.Id == classId, i => i.Teachers);
 
             if(classWithTeachers == null || teacher == null)
-                throw new Exception("Not Found");
-
-            if(classWithTeachers.Teachers == null)
-            {
-                classWithTeachers.Teachers = new List<WebAPI.Domain.Entities.Teacher>();
-            }
+                throw new ResourceNotFoundException();
 
             classWithTeachers.Teachers.Add(teacher);
             _baseRepository.UpdateAsync(classWithTeachers);
@@ -109,11 +106,11 @@ namespace School.Application.Services.SchoolClass
             var classWithTeachers = await _baseRepository.ReadIncludeAsync(id => id.Id == classId, i => i.Teachers);
 
             if (classWithTeachers == null || classWithTeachers.Teachers == null)
-                throw new Exception("Not Found");
+                throw new ResourceNotFoundException();
 
             var teacher = classWithTeachers.Teachers.FirstOrDefault(id => id.Id == Guid.Parse(teacherId));
             if (teacher == null)
-                throw new Exception("Not Found");
+                throw new ResourceNotFoundException();
 
             classWithTeachers.Teachers.Remove(teacher);
             await _baseRepository.UpdateAsync(classWithTeachers);

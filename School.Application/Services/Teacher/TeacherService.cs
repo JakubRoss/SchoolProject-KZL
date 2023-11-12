@@ -15,10 +15,17 @@ namespace School.Application.Services.Teacher
             _baseRepository = baseRepository;
             _mapper = mapper;
         }
-        async Task<WebAPI.Domain.Entities.Teacher> GetTeacher(string studentId)
+        async Task<WebAPI.Domain.Entities.Teacher> GetTeacher(string teacherId)
         {
-            var student = await _baseRepository.ReadAsync(id => id.Id.ToString() == studentId);
-            return student;
+            Guid parsedId;
+            if (Guid.TryParse(teacherId, out parsedId))
+            {
+                var teacher = await _baseRepository.ReadAsync(id => id.Id == parsedId);
+                if (teacher == null)
+                    throw new ResourceNotFoundException();
+                return teacher;
+            }
+            throw new FormatException();
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using School.Application.Interfasces;
 using School.Application.Model.StudentModels;
+using School.WebAPI.Domain.Entities;
 
 namespace School.WebAPI.Controllers
 {
@@ -23,9 +24,9 @@ namespace School.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Read([FromQuery] string studentId)
+        public async Task<Student> Read([FromQuery] string studentId)
         {
-            return Ok(await _studentService.ReadAsync(studentId));
+            return await _studentService.ReadAsync(studentId);
         }
 
         [HttpPut]

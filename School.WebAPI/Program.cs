@@ -1,5 +1,4 @@
-﻿
-
+﻿using School.Application.Middleware;
 using School.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,9 +22,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.UseAuthorization();
+app.UseHttpsRedirection();
 
 app.MapControllers();
 

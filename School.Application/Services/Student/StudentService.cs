@@ -17,8 +17,16 @@ namespace School.Application.Services.Student
         }
         async Task<WebAPI.Domain.Entities.Student> GetStudent(string studentId)
         {
-            var student = await _baseRepository.ReadAsync(id => id.Id.ToString() == studentId);
-            return student;
+
+            Guid parsedId;
+            if (Guid.TryParse(studentId, out parsedId))
+            {
+                var student = await _baseRepository.ReadAsync(id => id.Id == parsedId);
+                if (student == null)
+                    throw new ResourceNotFoundException();
+                return student;
+            }
+            throw new FormatException();
         }
 
         //CRUD Operations
