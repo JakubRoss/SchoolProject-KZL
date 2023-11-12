@@ -1,6 +1,6 @@
 ﻿using School.Application.Model.StudentModels;
 
-namespace School.Application.Services.Student
+namespace School.Application.Interfasces
 {
     public interface IStudentService
     {
@@ -12,5 +12,6 @@ namespace School.Application.Services.Student
 
         //
         Task<List<WebAPI.Domain.Entities.Student>> ReadAllAsync();
+        Task<List<StudentByPhraseDto>> SearchBy(string phrase);
     }
 }

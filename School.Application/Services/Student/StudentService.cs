@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cabanoss.Core.Repositories.Impl;
+using School.Application.Interfasces;
 using School.Application.Model.StudentModels;
 
 namespace School.Application.Services.Student
@@ -48,6 +49,24 @@ namespace School.Application.Services.Student
         public async Task<List<WebAPI.Domain.Entities.Student>> ReadAllAsync()
         {
             return await _baseRepository.ReadAllAsync();
+        }
+        public async Task<List<StudentByPhraseDto>> SearchBy(string phrase)
+        {
+            var allStudents = await _baseRepository.ReadAllAsync(i=>i.SchoolClass);
+
+            phrase = phrase.ToLower();
+            var students = allStudents.Where(n=>n.Name.ToLower().Contains(phrase) || n.Surname.ToLower().Contains(phrase) || n.SchoolClass.ClassName.ToLower().Contains(phrase)).ToList();
+            var studentPhrases = new List<StudentByPhraseDto>();
+            foreach (var student in students)
+            {
+                studentPhrases.Add(new StudentByPhraseDto()
+                {
+                    Name = student.Name,
+                    Surname = student.Surname,
+                    ClassName = student.SchoolClass.ClassName
+                });
+            }
+            return studentPhrases;
         }
     }
 }

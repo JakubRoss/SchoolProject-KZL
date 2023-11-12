@@ -1,6 +1,6 @@
 ﻿using School.Application.Model.SchoolClassModels;
 
-namespace School.Application.Services.SchoolClass
+namespace School.Application.Interfasces
 {
     public interface ISchoolClassService
     {

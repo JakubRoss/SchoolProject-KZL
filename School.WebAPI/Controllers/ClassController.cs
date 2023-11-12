@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using School.Application.Interfasces;
 using School.Application.Model.SchoolClassModels;
-using School.Application.Services.SchoolClass;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

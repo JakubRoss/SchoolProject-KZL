@@ -1,6 +1,6 @@
 ﻿using School.Application.Model.TeacherModels;
 
-namespace School.Application.Services.Teacher
+namespace School.Application.Interfasces
 {
     public interface ITeacherService
     {

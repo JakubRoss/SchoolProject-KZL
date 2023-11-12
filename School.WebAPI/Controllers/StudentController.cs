@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using School.Application.Interfasces;
 using School.Application.Model.StudentModels;
-using School.Application.Services.Student;
 
 namespace School.WebAPI.Controllers
 {
@@ -45,6 +45,12 @@ namespace School.WebAPI.Controllers
         public async Task<IActionResult> ReadAll()
         {
             return Ok(await _studentService.ReadAllAsync());
+        }
+
+        [HttpGet("{searchPhrase}")]
+        public async Task<IActionResult> ReadByName([FromRoute]string searchPhrase)
+        {
+            return Ok(await _studentService.SearchBy(searchPhrase));
         }
     }
 }
