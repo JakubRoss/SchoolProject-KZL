@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Cabanoss.Core.Repositories.Impl;
 using School.Application.Model.SchoolClassModels;
-using School.WebAPI.Domain.Entities;
 
 namespace School.Application.Services.SchoolClass
 {
@@ -10,14 +9,20 @@ namespace School.Application.Services.SchoolClass
         private IBaseRepository<WebAPI.Domain.Entities.SchoolClass> _baseRepository;
         private IMapper _mapper;
         private IBaseRepository<WebAPI.Domain.Entities.Student> _studentBaseRepository;
+        private IBaseRepository<WebAPI.Domain.Entities.Teacher> _teacherBaseRepository;
 
-        public SchoolClassService(IBaseRepository<WebAPI.Domain.Entities.SchoolClass> baseRepository, IMapper mapper, IBaseRepository<WebAPI.Domain.Entities.Student> studentBaseRepository )
+        public SchoolClassService(IBaseRepository<WebAPI.Domain.Entities.SchoolClass> baseRepository
+            ,IMapper mapper
+            ,IBaseRepository<WebAPI.Domain.Entities.Student> studentBaseRepository
+            ,IBaseRepository<WebAPI.Domain.Entities.Teacher> teacherBaseRepository )
         {
             _baseRepository = baseRepository;
             _mapper = mapper;
             _studentBaseRepository = studentBaseRepository;
+            _teacherBaseRepository = teacherBaseRepository;
         }
 
+        //CRUD SchoolClass
         async Task<WebAPI.Domain.Entities.SchoolClass> GetClass(string classId)
         {
             var student = await _baseRepository.ReadAsync(id => id.Id.ToString() == classId);
@@ -53,7 +58,7 @@ namespace School.Application.Services.SchoolClass
         }
 
 
-        //
+        // Adding/Removing Students from SSchoolClass
 
         public async Task AddStudentAsync(string studentId, int classId)
         {
@@ -63,26 +68,55 @@ namespace School.Application.Services.SchoolClass
             if (student == null || classWithStudents == null)
                 throw new Exception();
 
-            if (classWithStudents.Students == null)
-                classWithStudents.Students = new List<WebAPI.Domain.Entities.Student>();
-
-            if (!classWithStudents.Students.Contains(student))
-            {
-                classWithStudents.Students.Add(student);
-                await _baseRepository.UpdateAsync(classWithStudents);
-            }
+            classWithStudents.Students.Add(student);
+            await _baseRepository.UpdateAsync(classWithStudents);
+            
         }
 
         public async Task DeleteStudentAsync(string studentId, int classId)
         {
             var classWithStudents = await _baseRepository.ReadIncludeAsync(c => c.Id == classId, s => s.Students);
-            var student = await _studentBaseRepository.ReadAsync(id => id.Id.ToString() == studentId);
+            var student = classWithStudents.Students.FirstOrDefault(id => id.Id == Guid.Parse(studentId));
 
             if (student == null || classWithStudents == null)
                 throw new Exception();
 
             student.SchoolClassId = null;
             await _studentBaseRepository.UpdateAsync(student);
+        }
+
+        // Adding/Removing Teachers from schoolClasses
+
+        public async Task AddTeacherAsync(string teacherId, int classId)
+        {
+            var teacher = await _teacherBaseRepository.ReadAsync(id=>id.Id.ToString() == teacherId);
+            var classWithTeachers = await _baseRepository.ReadIncludeAsync(id => id.Id == classId, i => i.Teachers);
+
+            if(classWithTeachers == null || teacher == null)
+                throw new Exception("Not Found");
+
+            if(classWithTeachers.Teachers == null)
+            {
+                classWithTeachers.Teachers = new List<WebAPI.Domain.Entities.Teacher>();
+            }
+
+            classWithTeachers.Teachers.Add(teacher);
+            _baseRepository.UpdateAsync(classWithTeachers);
+        }
+
+        public async Task DeleteTeacherAsync(string teacherId, int classId)
+        {
+            var classWithTeachers = await _baseRepository.ReadIncludeAsync(id => id.Id == classId, i => i.Teachers);
+
+            if (classWithTeachers == null || classWithTeachers.Teachers == null)
+                throw new Exception("Not Found");
+
+            var teacher = classWithTeachers.Teachers.FirstOrDefault(id => id.Id == Guid.Parse(teacherId));
+            if (teacher == null)
+                throw new Exception("Not Found");
+
+            classWithTeachers.Teachers.Remove(teacher);
+            await _baseRepository.UpdateAsync(classWithTeachers);
         }
     }
 }

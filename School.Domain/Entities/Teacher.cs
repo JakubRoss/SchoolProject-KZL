@@ -9,7 +9,7 @@
         public DateTime? StartOfWork { get; set; }
 
         //EF NAVIGATION
-        public List<SchoolClass>? SchoolClasses { get; set; }
+        public List<SchoolClass>? SchoolClasses { get; set; } = new List<SchoolClass>();
 
     }
 }

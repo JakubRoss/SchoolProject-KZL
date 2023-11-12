@@ -54,7 +54,7 @@ namespace Cabanoss.Core.Repositories.Impl
 
             foreach (var item in include)
             {
-                query.Include(item);
+                query = query.Include(item);
             }
 
             return await query.FirstOrDefaultAsync();
