@@ -1,7 +1,6 @@
 ﻿
 
 using School.Infrastructure.Extensions;
-using School.WebAPI.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 

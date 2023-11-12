@@ -1,9 +1,9 @@
-﻿namespace School.Application.Model
+﻿namespace School.Application.Model.StudentModels
 {
     public class StudentDto
     {
         public string Name { get; set; } = default!;
         public string Surname { get; set; } = default!;
-        public DateTime DateOfBirth { get; set; } 
+        public DateTime DateOfBirth { get; set; }
     }
 }

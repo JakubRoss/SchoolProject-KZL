@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using School.Application.Model;
+using School.Application.Model.TeacherModels;
 using School.Application.Services.Teacher;
 
 namespace School.WebAPI.Controllers

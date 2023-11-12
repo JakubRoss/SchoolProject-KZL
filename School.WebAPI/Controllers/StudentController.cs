@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using School.Application.Model;
+using School.Application.Model.StudentModels;
 using School.Application.Services.Student;
 
 namespace School.WebAPI.Controllers
@@ -35,9 +35,9 @@ namespace School.WebAPI.Controllers
             return Ok();
         }
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] string teacherId)
+        public async Task<IActionResult> Delete([FromQuery] string studentId)
         {
-            await _studentService.DeleteAsync(teacherId);
+            await _studentService.DeleteAsync(studentId);
             return Ok();
         }
     }

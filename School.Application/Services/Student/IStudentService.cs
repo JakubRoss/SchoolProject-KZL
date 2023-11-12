@@ -1,4 +1,4 @@
-﻿using School.Application.Model;
+﻿using School.Application.Model.StudentModels;
 
 namespace School.Application.Services.Student
 {

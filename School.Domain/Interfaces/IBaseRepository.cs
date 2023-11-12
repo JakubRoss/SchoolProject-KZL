@@ -10,6 +10,6 @@ namespace Cabanoss.Core.Repositories.Impl
         Task<TEntity> UpdateAsync(TEntity entity);
 
         Task<List<TEntity>> ReadAllAsync();
-        Task<TEntity> ReadIncludeAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> include);
+        Task<TEntity> ReadIncludeAsync(Expression<Func<TEntity, bool>> predicate,params Expression<Func<TEntity, object>>[] include);
     }
 }

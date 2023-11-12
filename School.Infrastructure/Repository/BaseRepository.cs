@@ -48,11 +48,16 @@ namespace Cabanoss.Core.Repositories.Impl
             return list;
         }
 
-        public async Task<TEntity> ReadIncludeAsync(Expression<Func<TEntity, bool>> predicate,  Expression<Func<TEntity, object>> include)
+        public async Task<TEntity> ReadIncludeAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] include)
         {
-            var obj = DbSet.Where(predicate).Include(include);
+            var query = DbSet.Where(predicate);
 
-            return await obj.FirstOrDefaultAsync();
+            foreach (var item in include)
+            {
+                query.Include(item);
+            }
+
+            return await query.FirstOrDefaultAsync();
         }
     }
 }

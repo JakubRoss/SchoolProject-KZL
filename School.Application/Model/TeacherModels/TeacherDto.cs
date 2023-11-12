@@ -1,4 +1,4 @@
-﻿namespace School.Application.Model
+﻿namespace School.Application.Model.TeacherModels
 {
     public class TeacherDto
     {
