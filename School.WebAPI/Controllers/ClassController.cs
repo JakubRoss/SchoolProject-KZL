@@ -46,5 +46,20 @@ namespace School.WebAPI.Controllers
             await _service.DeleteAsync(schoolClassId);
             return Ok();
         }
+
+
+        [HttpPost("students")]
+        public async Task<IActionResult> AddStudent([FromQuery] string studentId ,int classId)
+        {
+            await _service.AddStudentAsync(studentId,classId);
+            return Ok();
+        }
+
+        [HttpDelete("students")]
+        public async Task<IActionResult> DeleteStudent([FromQuery] string studentId, int classId)
+        {
+            await _service.DeleteStudentAsync(studentId, classId);
+            return Ok();
+        }
     }
 }

@@ -9,5 +9,8 @@ namespace School.Application.Services.SchoolClass
         Task<List<WebAPI.Domain.Entities.SchoolClass>> ReadAllAsync();
         Task<WebAPI.Domain.Entities.SchoolClass> ReadAsync(string classId);
         Task UpdateAsync(SchoolClassDto classDto, string classId);
+
+        Task AddStudentAsync(string studentId, int classId);
+        Task DeleteStudentAsync(string studentId, int classId);
     }
 }
