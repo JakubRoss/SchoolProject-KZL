@@ -63,16 +63,16 @@ namespace School.Application.Services.Student
             var allStudents = await _baseRepository.ReadAllAsync(i=>i.SchoolClass);
 
             phrase = phrase.ToLower();
-            var students = allStudents.Where(n=>n.Name.ToLower().Contains(phrase) || n.Surname.ToLower().Contains(phrase) || n.SchoolClass.ClassName.ToLower().Contains(phrase)).ToList();
+            var students = allStudents.Where(n => n.Name.ToLower().Contains(phrase) || n.Surname.ToLower().Contains(phrase) ||(n.SchoolClass != null && n.SchoolClass.ClassName.ToLower().Contains(phrase))).ToList();
             var studentPhrases = new List<StudentByPhraseDto>();
             foreach (var student in students)
             {
-                studentPhrases.Add(new StudentByPhraseDto()
-                {
-                    Name = student.Name,
-                    Surname = student.Surname,
-                    ClassName = student.SchoolClass.ClassName
-                });
+                var studentPhraseDto = new StudentByPhraseDto();
+                studentPhraseDto.Name = student.Name;
+                studentPhraseDto.Surname = student.Surname;
+                studentPhraseDto.ClassName = student.SchoolClass == null ? "Bez klasy " : student.SchoolClass.ClassName;
+
+                studentPhrases.Add(studentPhraseDto);
             }
             return studentPhrases;
         }
