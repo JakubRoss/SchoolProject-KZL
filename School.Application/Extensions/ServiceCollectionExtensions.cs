@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using School.Application.Interfasces;
+using School.Application.Interfaces;
 using School.Application.Middleware;
 using School.Application.Model;
 using School.Application.Services.SchoolClass;

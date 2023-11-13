@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Cabanoss.Core.Repositories.Impl;
-using School.Application.Interfasces;
-using School.Application.Model.StudentModels;
+using School.Application.Interfaces;
+using School.Domain.Model.StudentModels;
 
 namespace School.Application.Services.Student
 {

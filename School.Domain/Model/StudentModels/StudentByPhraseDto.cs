@@ -1,4 +1,4 @@
-﻿namespace School.Application.Model.StudentModels
+﻿namespace School.Domain.Model.StudentModels
 {
     public class StudentByPhraseDto
     {

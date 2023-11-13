@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using School.Application.Interfasces;
-using School.Application.Model.StudentModels;
+using School.Application.Interfaces;
+using School.Domain.Model.StudentModels;
 using School.WebAPI.Domain.Entities;
 
 namespace School.WebAPI.Controllers

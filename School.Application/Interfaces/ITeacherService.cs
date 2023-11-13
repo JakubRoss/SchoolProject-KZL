@@ -1,6 +1,6 @@
-﻿using School.Application.Model.TeacherModels;
+﻿using School.Domain.Model.TeacherModels;
 
-namespace School.Application.Interfasces
+namespace School.Application.Interfaces
 {
     public interface ITeacherService
     {

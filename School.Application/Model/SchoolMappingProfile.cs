@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using School.Application.Model.SchoolClassModels;
-using School.Application.Model.StudentModels;
-using School.Application.Model.TeacherModels;
+using School.Domain.Model.SchoolClassModels;
+using School.Domain.Model.StudentModels;
+using School.Domain.Model.TeacherModels;
 using School.WebAPI.Domain.Entities;
 
 namespace School.Application.Model
