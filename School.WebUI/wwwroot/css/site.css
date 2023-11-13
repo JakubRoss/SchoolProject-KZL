@@ -66,3 +66,21 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+.button-student-plus {
+    margin-top: 50px;
+}
+.button-student-add {
+    margin-top: 50px;
+}
+.adding-student-form{
+    margin-top:50px;
+}
+.button-student-eye{
+    margin-top:50px;
+}
+.searching-student-form{
+    margin-top:50px;
+}
+.button-search-phrase{
+    margin-top:50px;
+}

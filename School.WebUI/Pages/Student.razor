@@ -1,0 +1,101 @@
+﻿@page "/students/{id}"
+@using School.Domain.Model.StudentModels;
+@using School.WebAPI.Domain.Entities;
+@inject IStudentsService studentService;
+@inject NavigationManager navigationManager;
+
+<h3>Student</h3>
+
+@if (!string.IsNullOrEmpty(id))
+{
+    @if (student != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Date of Birth</th>
+                    <th>Grade Avarage</th>
+                    <th>School Class Id</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td>@student.Id</td>
+                        <td>@student.Name</td>
+                        <td>@student.Surname</td>
+                        <td>@student.DateOfBirth.ToShortDateString()</td>
+                        <td>@student.GradeAvarage</td>
+                        <td>@student.SchoolClassId</td>
+                        <td>
+                            <button class="btn btn-warning"
+                        @onclick="ShowButton">
+                                <i class="oi oi-pencil"></i>
+                            </button>
+
+                        </td>
+
+                    </tr>
+            </tbody>
+        </table>
+        <div class="button-student-back">
+            <button type="button" class="btn btn-outline-info btn-lg" @onclick='() => navigationManager.NavigateTo("/students")'>Back<i class="oi oi-arrow-left"></i></button>
+        </div>
+        @if (Flag)
+        {
+            <form class="adding-student-form">
+                <tr>
+                    <input type="text" name="Name" @bind="student.Name" placeholder="name">
+                    <td><input type="text" name="Surname" @bind="student.Surname" placeholder="Surname"></td>
+                    <td><input type="text" name="DateOfBirth" @bind="student.DateOfBirth" placeholder="dd.MM.yyyy"></td>
+                </tr>
+            </form>
+
+            <div class="button-student-add">
+                <button type="button" class="btn btn-success btn-lg" @onclick="()=>UpdateStudent()">Update</button>
+            </div>
+        }
+    }
+}
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    private WebAPI.Domain.Entities.Student student;
+    public bool Flag = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+    void ShowButton()
+    {
+        Flag = !Flag;
+    }
+    async Task LoadData()
+    {
+        student = await GetStudent();
+    }
+    async Task<WebAPI.Domain.Entities.Student> GetStudent()
+    {
+        var student = await studentService.ReadAsync(id);
+        return student;
+    }
+
+    async Task UpdateStudent()
+    {
+        StudentDto studenDto = new StudentDto
+        {
+            Name = student.Name,
+            Surname = student.Surname,
+            DateOfBirth = student.DateOfBirth
+        };
+        await studentService.UpdateAsync(studenDto, id);
+        ShowButton();
+    }
+
+}

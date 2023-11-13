@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using School.WebUI.Data;
+using School.WebUI.Services.StudentService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+var configuration = builder.Configuration;
+var apiUrl = configuration["HttpClients:applicationUrl"];
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
+
+builder.Services.AddScoped<IStudentsService,StudentsService>();
 
 var app = builder.Build();
 

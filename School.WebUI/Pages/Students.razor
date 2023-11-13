@@ -1,0 +1,152 @@
+﻿@page "/students"
+@using School.Domain.Model.StudentModels;
+@inject IStudentsService studentService;
+@inject NavigationManager navigationManager;
+
+<h3>Students</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Date of Birth</th>
+            <th>Grade Avarage</th>
+            <th>School Class Id</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in studentService.Students)
+        {
+            <tr>
+                <td>@student.Id</td>
+                <td>@student.Name</td>
+                <td>@student.Surname</td>
+                <td>@student.DateOfBirth.ToShortDateString()</td>
+                <td>@student.GradeAvarage</td>
+                <td>@student.SchoolClassId</td>
+                <td>
+                    <button class="btn btn-primary"
+                    @onclick="(() => ShowStudent(student.Id.ToString()))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+
+                </td>
+                <td>
+                    <button class="btn btn-danger "
+                    @onclick="(() => DeleteStudent(student.Id.ToString()))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="button-student-plus">
+    <button type="button" class="btn btn-success" @onclick="AddButton"><i class="oi oi-plus"></i></button>
+</div>
+@if (addButton)
+{
+    <form class="adding-student-form">
+        <tr>
+            <input type="text" name="Name" @bind="studentService.StudentDto.Name" placeholder="name">
+            <td><input type="text" name="Surname" @bind="studentService.StudentDto.Surname" placeholder="Surname"></td>
+            <td><input type="text" name="DateOfBirth" @bind="studentService.StudentDto.DateOfBirth" placeholder="dd.MM.yyyy"></td>
+        </tr>
+    </form>
+    <div class="button-student-add">
+        <button type="button" class="btn btn-outline-success" @onclick="()=>AddStudent()">Add</button>
+    </div>
+}
+
+<div class="button-student-eye">
+    <button type="button" class="btn btn-outline-primary" @onclick="()=>searchButton =!searchButton"><i class="oi oi-eye"></i></button>
+</div>
+
+@if (searchButton)
+{
+    <form class="searching-student-form">
+        <tr>
+            <input type="text" name="Name" @bind="phrase" placeholder="phrase">
+        </tr>
+    </form>
+    <div class ="button-search-phrase">
+        <button type="button" class="btn btn-secondary" @onclick="()=>SearchStudent()">Search</button>
+    </div>
+    @if (resultButton || studentByPhrases != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Class</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in studentByPhrases)
+                {
+                    <tr>
+                        <td>@student.Name</td>
+                        <td>@student.Surname</td>
+                        <td>@student.ClassName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+}
+@code {
+    bool addButton = false;
+    bool searchButton = false;
+    bool resultButton = false;
+    string phrase = string.Empty;
+    List<StudentByPhraseDto> studentByPhrases = new List<StudentByPhraseDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+    async Task LoadData()
+    {
+        await studentService.ReadAllAsync();
+        studentService.StudentDto.Name = null;
+        studentService.StudentDto.Surname = null;
+        studentService.StudentDto.DateOfBirth = DateTime.Today;
+    }
+
+    void AddButton()
+    {
+        addButton = !addButton;
+        searchButton = false;
+    }
+    async Task DeleteStudent(string id)
+    {
+        await studentService.DeleteAsync(id);
+        await LoadData(); 
+    }
+
+    void ShowStudent(string id)
+    {
+        navigationManager.NavigateTo($"/students/{id}");
+    }
+    async Task AddStudent()
+    {
+        await studentService.CreateAsync();
+        await LoadData();
+    }
+    async Task SearchStudent()
+    {
+        var students = await studentService.SearchBy(phrase);
+        studentByPhrases = students;
+
+        resultButton = !resultButton;
+        phrase = string.Empty;
+    }
+}
