@@ -1,6 +1,7 @@
 ﻿using School.Domain.Model.SchoolClassModels;
-using School.Domain.Model.StudentModels;
 using School.WebAPI.Domain.Entities;
+using School.WebUI.Pages.TeacherPages;
+using System.Security.Claims;
 
 namespace School.WebUI.Services.SchoolClassService
 {
@@ -14,14 +15,14 @@ namespace School.WebUI.Services.SchoolClassService
         }
 
         public List<SchoolClass> SchoolClasses { get; set; } = new List<SchoolClass>();
-        public Task AddStudentAsync(string studentId, int classId)
+        public async Task AddStudentAsync(string studentId, int classId)
         {
-            throw new NotImplementedException();
+            await _httpClient.PostAsync($"api/Class/students?studentId={studentId}&classId={classId}",null);
         }
 
-        public Task AddTeacherAsync(string teacherId, int classId)
+        public async Task AddTeacherAsync(string teacherId, int classId)
         {
-            throw new NotImplementedException();
+            await _httpClient.PostAsync($"api/Class/teachers?teacherId={teacherId}&classId={classId}", null);
         }
 
         public async Task CreateAsync(SchoolClassDto classDto)
@@ -34,14 +35,14 @@ namespace School.WebUI.Services.SchoolClassService
             await _httpClient.DeleteAsync($"api/Class?schoolClassId={classId}");
         }
 
-        public Task DeleteStudentAsync(string studentId, int classId)
+        public async Task DeleteStudentAsync(string studentId, int classId)
         {
-            throw new NotImplementedException();
+            await _httpClient.DeleteAsync($"/api/Class/students?studentId={studentId}&classId={classId}");
         }
 
-        public Task DeleteTeacherAsync(string teacherId, int classId)
+        public async Task DeleteTeacherAsync(string teacherId, int classId)
         {
-            throw new NotImplementedException();
+            await _httpClient.DeleteAsync($"api/Class/teachers?teacherId={teacherId}&classId={classId}");
         }
 
         public async Task ReadAllAsync()

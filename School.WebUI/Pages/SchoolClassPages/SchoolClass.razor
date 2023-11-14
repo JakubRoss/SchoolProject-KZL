@@ -5,6 +5,10 @@
 @inject ISchoolClassService ISchoolClassService;
 @inject NavigationManager navigationManager;
 
+
+<div class="button-student-back">
+    <button type="button" class="btn btn-outline-info btn-lg" @onclick='() => navigationManager.NavigateTo("/class")'>Back<i class="oi oi-arrow-left"></i></button>
+</div>
 <h3>Student</h3>
 
 @if (!string.IsNullOrEmpty(id))
@@ -16,6 +20,8 @@
                 <tr>
                     <th>Name</th>
                     <th>Edit</th>
+                    <th>Student List</th>
+                    <th>Teacher List</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +29,21 @@
                     <td>@schoolClass.ClassName</td>
                     <td>
                         <button class="btn btn-warning"
-                        @onclick="()=> Flag = !Flag">
+                        @onclick="()=> EditFlag = !EditFlag">
                             <i class="oi oi-pencil"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-success"
+                        @onclick="()=> StudentListFlag = !StudentListFlag">
+                            <i class="oi oi-arrow-bottom"></i>
+                        </button>
+
+                    </td>
+                    <td>
+                        <button class="btn btn-success"
+                        @onclick="()=> TeachelistFlag = !TeachelistFlag">
+                            <i class="oi oi-arrow-bottom"></i>
                         </button>
 
                     </td>
@@ -32,10 +51,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="button-student-back">
-            <button type="button" class="btn btn-outline-info btn-lg" @onclick='() => navigationManager.NavigateTo("/class")'>Back<i class="oi oi-arrow-left"></i></button>
-        </div>
-        @if (Flag)
+        @if (EditFlag)
         {
             <form class="adding-student-form">
                 <input type="text" name="ClassName" @bind="schoolClass.ClassName" placeholder="ClassName">
@@ -43,6 +59,106 @@
 
             <div class="button-student-add">
                 <button type="button" class="btn btn-success btn-lg" @onclick="()=>UpdateSchoolClass()">Update</button>
+            </div>
+        }
+        @if (StudentListFlag)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Date of Birth</th>
+                        <th>Grade Avarage</th>
+                        <th>School Class Id</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in schoolClass.Students)
+                    {
+                        <tr>
+                            <td>@student.Id</td>
+                            <td>@student.Name</td>
+                            <td>@student.Surname</td>
+                            <td>@student.DateOfBirth.ToShortDateString()</td>
+                            <td>@student.GradeAvarage</td>
+                            <td>@student.SchoolClassId</td>
+                            <td>
+                                <button class="btn btn-danger "
+                                @onclick="(() => RemoveStudentFromClass(student.Id.ToString()))">
+                                    <i class="oi oi-pencil"></i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-success" @onclick="(() => AddStudentFlag=!AddStudentFlag)">
+                Add Student
+                <i class="oi oi-pencil"></i>
+            </button>
+            @if (AddStudentFlag)
+            {
+                <form class="adding-student-form">
+                    <input type="text" name="StudentId" @bind="AddId" placeholder="StudentID">
+
+                </form>
+
+                <div class="button-student-add">
+                    <button type="button" class="btn btn-success btn-lg" @onclick="()=>AddStudentToClass(AddId)">Update</button>
+                </div>
+            }
+        }
+    }
+    @if (TeachelistFlag)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Post</th>
+                    <th>Start Of Work</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var teacher in schoolClass.Teachers)
+                {
+                    <tr>
+                        <td>@teacher.Id</td>
+                        <td>@teacher.Name</td>
+                        <td>@teacher.Surname</td>
+                        <td>@teacher.Post</td>
+                        <td>@teacher.StartOfWork</td>
+                        <td>
+                            <button class="btn btn-danger "
+                            @onclick="(() => RemoveTeacherFromClass(teacher.Id.ToString()))">
+                                <i class="oi oi-pencil"></i>
+                            </button>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success" @onclick="(() => AddTeacherFlag=!AddTeacherFlag)">
+            Add Teacher
+            <i class="oi oi-pencil"></i>
+        </button>
+        @if (AddTeacherFlag)
+        {
+            <form class="adding-student-form">
+                <input type="text" name="StudentId" @bind="AddId" placeholder="TeacherID">
+
+            </form>
+
+            <div class="button-student-add">
+                <button type="button" class="btn btn-success btn-lg" @onclick="()=>AddTeacherToClass(AddId)">Add</button>
             </div>
         }
     }
@@ -53,7 +169,13 @@
     public string? id { get; set; }
 
     private WebAPI.Domain.Entities.SchoolClass? schoolClass;
-    public bool Flag = false;
+    bool EditFlag = false;
+    bool StudentListFlag = false;
+    bool TeachelistFlag = false;
+    bool AddStudentFlag = false;
+    bool AddTeacherFlag = false;
+    string AddId = string.Empty;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -78,7 +200,27 @@
 
             };
         await ISchoolClassService.UpdateAsync(schoolClassDto, id);
-        Flag = !Flag;
+        EditFlag = !EditFlag;
+        await LoadData();
     }
-
+    async Task RemoveStudentFromClass(string srtudentId)
+    {
+        await ISchoolClassService.DeleteStudentAsync(srtudentId, Convert.ToInt32(id));
+        await LoadData();
+    }
+    async Task AddStudentToClass(string StudentId)
+    {
+        await ISchoolClassService.AddStudentAsync(StudentId, Convert.ToInt32(id));
+        await LoadData();
+    }
+    async Task RemoveTeacherFromClass(string teacherId)
+    {
+        await ISchoolClassService.DeleteTeacherAsync(teacherId, Convert.ToInt32(id));
+        await LoadData();
+    }
+    async Task AddTeacherToClass(string teacherId)
+    {
+        await ISchoolClassService.AddTeacherAsync(teacherId, Convert.ToInt32(id));
+        await LoadData();
+    }
 }

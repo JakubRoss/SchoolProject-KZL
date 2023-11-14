@@ -38,7 +38,8 @@ namespace School.Application.Services.SchoolClass
         }
         public async Task<WebAPI.Domain.Entities.SchoolClass> ReadAsync(string classId)
         {
-            return await GetClass(classId);
+            return await _baseRepository.ReadIncludeAsync(i=>i.Id.ToString() == classId
+            , s=>s.Students ,t=>t.Teachers);
         }
 
         public async Task UpdateAsync(SchoolClassDto classDto, string classId)
