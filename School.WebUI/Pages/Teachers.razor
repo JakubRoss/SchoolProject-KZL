@@ -1,0 +1,104 @@
+﻿@page "/teachers"
+@using School.Domain.Model.TeacherModels;
+@using School.WebUI.Data
+@using School.WebUI.Services.TeracherService;
+
+
+<PageTitle>Teacher</PageTitle>
+@inject ITeacherService teacherService;
+@inject NavigationManager navigationManager;
+
+<h3>Students</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Post</th>
+            <th>Start Of Work</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var teacher in teacherService.Teachers)
+        {
+            <tr>
+                <td>@teacher.Id</td>
+                <td>@teacher.Name</td>
+                <td>@teacher.Surname</td>
+                <td>@teacher.Post</td>
+                <td>@teacher.StartOfWork</td>
+
+                <td>
+                    <button class="btn btn-primary"
+                    @onclick="(() => ShowTeacher(teacher.Id.ToString()))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+
+                </td>
+                <td>
+                    <button class="btn btn-danger "
+                    @onclick="(() => DeleteTeacher(teacher.Id.ToString()))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="button-student-plus">
+    <button type="button" class="btn btn-success" @onclick="AddButton"><i class="oi oi-plus"></i></button>
+</div>
+@if (addButton)
+{
+    <form class="adding-student-form">
+        <input type="text" name="Name" @bind="teacherDto.Name" placeholder="name">
+        <input type="text" name="Surname" @bind="teacherDto.Surname" placeholder="Surname">
+        <input type="text" name="DateOfBirth" @bind="teacherDto.Post" placeholder="Post">
+        <input type="text" name="DateOfBirth" @bind="teacherDto.StartOfWork" placeholder="dd.MM.yyyy">
+    </form>
+    <div class="button-student-add">
+        <button type="button" class="btn btn-outline-success" @onclick="()=>AddTeacher()">Add</button>
+    </div>
+}
+
+@code {
+    bool addButton = false;
+    bool searchButton = false;
+
+    TeacherDto teacherDto = new TeacherDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+    async Task LoadData()
+    {
+        await teacherService.ReadAllAsync();
+
+    }
+
+    void AddButton()
+    {
+        addButton = !addButton;
+        searchButton = false;
+    }
+    async Task DeleteTeacher(string id)
+    {
+        await teacherService.DeleteAsync(id);
+        await LoadData();
+    }
+
+    void ShowTeacher(string id)
+    {
+        navigationManager.NavigateTo($"/teachers/{id}");
+    }
+    async Task AddTeacher()
+    {
+        await teacherService.CreateAsync(teacherDto);
+        await LoadData();
+    }
+}

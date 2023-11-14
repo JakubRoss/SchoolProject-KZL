@@ -1,5 +1,7 @@
 using School.WebUI.Data;
 using School.WebUI.Services.StudentService;
+using School.WebUI.Services.SchoolClassService;
+using School.WebUI.Services.TeracherService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ var apiUrl = configuration["HttpClients:applicationUrl"];
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
 
 builder.Services.AddScoped<IStudentsService,StudentsService>();
+builder.Services.AddScoped<ISchoolClassService, SchoolClassService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 
 var app = builder.Build();
 

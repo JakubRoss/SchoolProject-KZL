@@ -34,7 +34,7 @@ namespace School.WebUI.Services.StudentService
                 Students = students;
         }
 
-        public async Task<Student?> ReadAsync(string studentId)
+        public async Task<Student> ReadAsync(string studentId)
         {
             var result = await _httpClient.GetAsync($"api/Student?studentId={studentId}");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)

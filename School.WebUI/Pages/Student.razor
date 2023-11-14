@@ -47,11 +47,9 @@
         @if (Flag)
         {
             <form class="adding-student-form">
-                <tr>
-                    <input type="text" name="Name" @bind="student.Name" placeholder="name">
-                    <td><input type="text" name="Surname" @bind="student.Surname" placeholder="Surname"></td>
-                    <td><input type="text" name="DateOfBirth" @bind="student.DateOfBirth" placeholder="dd.MM.yyyy"></td>
-                </tr>
+                <input type="text" name="Name" @bind="student.Name" placeholder="name">
+                <input type="text" name="Surname" @bind="student.Surname" placeholder="Surname">
+                <input type="text" name="DateOfBirth" @bind="student.DateOfBirth" placeholder="dd.MM.yyyy">
             </form>
 
             <div class="button-student-add">
@@ -63,9 +61,9 @@
 
 @code {
     [Parameter]
-    public string id { get; set; }
+    public string? id { get; set; }
 
-    private WebAPI.Domain.Entities.Student student;
+    private WebAPI.Domain.Entities.Student? student;
     public bool Flag = false;
 
     protected override async Task OnInitializedAsync()

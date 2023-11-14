@@ -1,0 +1,100 @@
+﻿@page "/teachers/{id}"
+@using School.Domain.Model.StudentModels;
+@using School.Domain.Model.TeacherModels;
+@using School.WebAPI.Domain.Entities;
+@using School.WebUI.Services.TeracherService;
+@inject ITeacherService teacherService;
+@inject NavigationManager navigationManager;
+
+<h3>Student</h3>
+
+@if (!string.IsNullOrEmpty(id))
+{
+    @if (teacher != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Post</th>
+                    <th>Start of work</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td>@teacher.Name</td>
+                    <td>@teacher.Surname</td>
+                    <td>@teacher.Post</td>
+                    <td>@teacher.StartOfWork</td>
+
+                    <td>
+                        <button class="btn btn-warning"
+                        @onclick="ShowButton">
+                            <i class="oi oi-pencil"></i>
+                        </button>
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div class="button-student-back">
+            <button type="button" class="btn btn-outline-info btn-lg" @onclick='() => navigationManager.NavigateTo("/teachers")'>Back<i class="oi oi-arrow-left"></i></button>
+        </div>
+        @if (Flag)
+        {
+            <form class="adding-student-form">
+                <input type="text" name="Name" @bind="teacher.Name" placeholder="name">
+                <input type="text" name="Surname" @bind="teacher.Surname" placeholder="Surname">
+                <input type="text" name="Post" @bind="teacher.Post" placeholder="Post">
+                <input type="text" name="Start Of Work" @bind="teacher.StartOfWork" placeholder="dd.MM.yyyy">
+            </form>
+
+            <div class="button-student-add">
+                <button type="button" class="btn btn-success btn-lg" @onclick="()=>UpdateStudent()">Update</button>
+            </div>
+        }
+    }
+}
+
+@code {
+    [Parameter]
+    public string? id { get; set; }
+
+    private WebAPI.Domain.Entities.Teacher? teacher;
+    public bool Flag = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+    void ShowButton()
+    {
+        Flag = !Flag;
+    }
+    async Task LoadData()
+    {
+        teacher = await GetTeacher();
+    }
+    async Task<WebAPI.Domain.Entities.Teacher> GetTeacher()
+    {
+        var student = await teacherService.ReadAsync(id);
+        return student;
+    }
+
+    async Task UpdateStudent()
+    {
+        TeacherDto teacherDto = new TeacherDto
+            {
+                Name = teacher.Name,
+                Surname = teacher.Surname,
+                Post = teacher.Post,
+                StartOfWork = teacher.StartOfWork
+            };
+        await teacherService.UpdateAsync(teacherDto, id);
+        ShowButton();
+    }
+
+}

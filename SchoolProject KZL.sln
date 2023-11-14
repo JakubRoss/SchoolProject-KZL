@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Application", "Schoo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Infrastructure", "School.Infrastructure\School.Infrastructure.csproj", "{95A3C40C-E6BF-4EFA-94B1-99C7014007D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School.WebUI", "School.WebUI\School.WebUI.csproj", "{434C930D-5706-4FFD-945E-D560291931DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.WebUI", "School.WebUI\School.WebUI.csproj", "{434C930D-5706-4FFD-945E-D560291931DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
