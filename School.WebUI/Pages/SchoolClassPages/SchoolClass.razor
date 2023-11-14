@@ -1,0 +1,84 @@
+﻿@page "/class/{id}"
+@using School.Domain.Model.SchoolClassModels;
+@using School.Domain.Model.StudentModels;
+@using School.WebAPI.Domain.Entities;
+@inject ISchoolClassService ISchoolClassService;
+@inject NavigationManager navigationManager;
+
+<h3>Student</h3>
+
+@if (!string.IsNullOrEmpty(id))
+{
+    @if (schoolClass != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@schoolClass.ClassName</td>
+                    <td>
+                        <button class="btn btn-warning"
+                        @onclick="()=> Flag = !Flag">
+                            <i class="oi oi-pencil"></i>
+                        </button>
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div class="button-student-back">
+            <button type="button" class="btn btn-outline-info btn-lg" @onclick='() => navigationManager.NavigateTo("/class")'>Back<i class="oi oi-arrow-left"></i></button>
+        </div>
+        @if (Flag)
+        {
+            <form class="adding-student-form">
+                <input type="text" name="ClassName" @bind="schoolClass.ClassName" placeholder="ClassName">
+            </form>
+
+            <div class="button-student-add">
+                <button type="button" class="btn btn-success btn-lg" @onclick="()=>UpdateSchoolClass()">Update</button>
+            </div>
+        }
+    }
+}
+
+@code {
+    [Parameter]
+    public string? id { get; set; }
+
+    private WebAPI.Domain.Entities.SchoolClass? schoolClass;
+    public bool Flag = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    async Task LoadData()
+    {
+        schoolClass = await GetClass();
+    }
+    async Task<WebAPI.Domain.Entities.SchoolClass> GetClass()
+    {
+        var student = await ISchoolClassService.ReadAsync(id);
+        return student;
+    }
+
+    async Task UpdateSchoolClass()
+    {
+        SchoolClassDto schoolClassDto = new SchoolClassDto
+            {
+                ClassName = schoolClass.ClassName
+
+            };
+        await ISchoolClassService.UpdateAsync(schoolClassDto, id);
+        Flag = !Flag;
+    }
+
+}

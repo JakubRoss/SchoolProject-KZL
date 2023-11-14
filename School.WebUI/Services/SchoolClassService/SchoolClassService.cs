@@ -1,10 +1,19 @@
 ﻿using School.Domain.Model.SchoolClassModels;
+using School.Domain.Model.StudentModels;
 using School.WebAPI.Domain.Entities;
 
 namespace School.WebUI.Services.SchoolClassService
 {
     public class SchoolClassService : ISchoolClassService
     {
+        private HttpClient _httpClient;
+
+        public SchoolClassService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
+        public List<SchoolClass> SchoolClasses { get; set; } = new List<SchoolClass>();
         public Task AddStudentAsync(string studentId, int classId)
         {
             throw new NotImplementedException();
@@ -15,14 +24,14 @@ namespace School.WebUI.Services.SchoolClassService
             throw new NotImplementedException();
         }
 
-        public Task CreateAsync(SchoolClassDto classDto)
+        public async Task CreateAsync(SchoolClassDto classDto)
         {
-            throw new NotImplementedException();
+            await _httpClient.PostAsJsonAsync("api/Class", classDto);
         }
 
-        public Task DeleteAsync(string classId)
+        public async Task DeleteAsync(string classId)
         {
-            throw new NotImplementedException();
+            await _httpClient.DeleteAsync($"api/Class?schoolClassId={classId}");
         }
 
         public Task DeleteStudentAsync(string studentId, int classId)
@@ -35,19 +44,32 @@ namespace School.WebUI.Services.SchoolClassService
             throw new NotImplementedException();
         }
 
-        public Task<List<SchoolClass>> ReadAllAsync()
+        public async Task ReadAllAsync()
         {
-            throw new NotImplementedException();
+            var result = await _httpClient.GetAsync($"api/Class/all");
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var classes = await result.Content.ReadFromJsonAsync<List<SchoolClass>>();
+                if (classes != null)
+                    SchoolClasses = classes;
+            }
+
         }
 
-        public Task<SchoolClass> ReadAsync(string classId)
+        public async Task<SchoolClass> ReadAsync(string classId)
         {
-            throw new NotImplementedException();
+            var result = await _httpClient.GetAsync($"api/Class?schoolClassId={classId}");
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return await result.Content.ReadFromJsonAsync<SchoolClass>();
+            }
+            return new SchoolClass();
         }
 
-        public Task UpdateAsync(SchoolClassDto classDto, string classId)
+        public async Task UpdateAsync(SchoolClassDto classDto, string classId)
         {
-            throw new NotImplementedException();
+            await _httpClient.PutAsJsonAsync($"api/Class?schoolClassId={classId}", classDto);
         }
     }
 }

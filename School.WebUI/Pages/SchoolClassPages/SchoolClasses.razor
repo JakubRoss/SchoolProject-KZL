@@ -1,0 +1,98 @@
+﻿@page "/class"
+
+@using School.Domain.Model.SchoolClassModels;
+@using School.Domain.Model.TeacherModels;
+@using School.WebUI.Services.TeracherService;
+
+
+<PageTitle>School Class</PageTitle>
+@inject ISchoolClassService schoolClassService;
+@inject NavigationManager navigationManager;
+
+<h3>Classes</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Class Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schoolClass in schoolClassService.SchoolClasses)
+        {
+            <tr>
+                <td>@schoolClass.Id</td>
+                <td>@schoolClass.ClassName</td>
+
+                <td>
+                    <button class="btn btn-primary"
+                    @onclick="(() => ShowClass(schoolClass.Id.ToString()))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+
+                </td>
+                <td>
+                    <button class="btn btn-danger "
+                    @onclick="(() => DeleteClass(schoolClass.Id.ToString()))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="button-student-plus">
+    <button type="button" class="btn btn-success" @onclick="AddButton"><i class="oi oi-plus"></i></button>
+</div>
+@if (addButton)
+{
+    <form class="adding-student-form">
+        <input type="text" name="Name" @bind="_SchoolClass.ClassName" placeholder="name">
+    </form>
+    <div class="button-student-add">
+        <button type="button" class="btn btn-outline-success" @onclick="()=>AddClass()">Add</button>
+    </div>
+}
+
+@code {
+    bool addButton = false;
+    bool searchButton = false;
+
+    SchoolClassDto _SchoolClass = new SchoolClassDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+    async Task LoadData()
+    {
+        await schoolClassService.ReadAllAsync();
+
+    }
+
+    void AddButton()
+    {
+        addButton = !addButton;
+        searchButton = false;
+    }
+    async Task DeleteClass(string id)
+    {
+        await schoolClassService.DeleteAsync(id);
+        await LoadData();
+    }
+
+    void ShowClass(string id)
+    {
+        navigationManager.NavigateTo($"/class/{id}");
+    }
+    async Task AddClass()
+    {
+        await schoolClassService.CreateAsync(_SchoolClass);
+        await LoadData();
+    }
+}

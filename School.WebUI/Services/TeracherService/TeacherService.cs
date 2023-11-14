@@ -1,5 +1,4 @@
-﻿using School.Domain.Model.StudentModels;
-using School.Domain.Model.TeacherModels;
+﻿using School.Domain.Model.TeacherModels;
 using School.WebAPI.Domain.Entities;
 
 namespace School.WebUI.Services.TeracherService

@@ -1,6 +1,5 @@
-using School.WebUI.Data;
-using School.WebUI.Services.StudentService;
 using School.WebUI.Services.SchoolClassService;
+using School.WebUI.Services.StudentService;
 using School.WebUI.Services.TeracherService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 
 var configuration = builder.Configuration;
 var apiUrl = configuration["HttpClients:applicationUrl"];
