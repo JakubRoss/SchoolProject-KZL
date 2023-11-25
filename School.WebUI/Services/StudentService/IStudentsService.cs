@@ -1,17 +1,17 @@
-﻿using School.Domain.Model.StudentModels;
-using School.WebAPI.Domain.Entities;
+﻿using School.Domain.Entities;
+using School.Domain.Model.StudentModels;
 
 namespace School.WebUI.Services.StudentService
 {
     public interface IStudentsService
     {
-        public List<Student> Students { get; set; }
+        public List<StudentEM> Students { get; set; }
         public StudentDto StudentDto { get; set; }
-        public Student student { get; set; }
+        public StudentEM student { get; set; }
         //CRUD
         Task CreateAsync();
         Task DeleteAsync(string studentId);
-        Task<Student> ReadAsync(string studentId);
+        Task<StudentEM> ReadAsync(string studentId);
         Task UpdateAsync(StudentDto studentDto, string studentId);
 
         //

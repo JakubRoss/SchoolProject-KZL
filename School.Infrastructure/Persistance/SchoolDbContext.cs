@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using School.WebAPI.Domain.Entities;
+using School.Infrastructure.Entities;
 
 namespace School.Infrastructure.Persistance
 {

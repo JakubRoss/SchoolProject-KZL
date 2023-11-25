@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
-using Cabanoss.Core.Repositories.Impl;
 using School.Application.Interfaces;
 using School.Domain.Model.StudentModels;
+using School.Infrastructure.Interfaces;
 
 namespace School.Application.Services.Student
 {
     public class StudentService : IStudentService
     {
-        private IBaseRepository<WebAPI.Domain.Entities.Student> _baseRepository;
+        private IBaseRepository<Infrastructure.Entities.Student> _baseRepository;
         private IMapper _mapper;
 
-        public StudentService(IBaseRepository<WebAPI.Domain.Entities.Student> baseRepository, IMapper mapper)
+        public StudentService(IBaseRepository<Infrastructure.Entities.Student> baseRepository, IMapper mapper)
         {
             _baseRepository = baseRepository;
             _mapper = mapper;
         }
-        async Task<WebAPI.Domain.Entities.Student> GetStudent(string studentId)
+        async Task<Infrastructure.Entities.Student> GetStudent(string studentId)
         {
 
             Guid parsedId;
@@ -32,10 +32,10 @@ namespace School.Application.Services.Student
         //CRUD Operations
         public async Task CreateAsync(StudentDto studentDto)
         {
-            var student = _mapper.Map<WebAPI.Domain.Entities.Student>(studentDto);
+            var student = _mapper.Map<Infrastructure.Entities.Student>(studentDto);
             await _baseRepository.CreateAsync(student);
         }
-        public async Task<WebAPI.Domain.Entities.Student> ReadAsync(string studentId)
+        public async Task<Infrastructure.Entities.Student> ReadAsync(string studentId)
         {
             return await GetStudent(studentId);
         }
@@ -54,7 +54,7 @@ namespace School.Application.Services.Student
         }
 
         //
-        public async Task<List<WebAPI.Domain.Entities.Student>> ReadAllAsync()
+        public async Task<List<Infrastructure.Entities.Student>> ReadAllAsync()
         {
             return await _baseRepository.ReadAllAsync();
         }

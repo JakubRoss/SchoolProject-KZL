@@ -1,6 +1,6 @@
 ﻿@page "/students/{id}"
+@using School.Domain.Entities
 @using School.Domain.Model.StudentModels;
-@using School.WebAPI.Domain.Entities;
 @inject IStudentsService studentService;
 @inject NavigationManager navigationManager;
 
@@ -63,7 +63,7 @@
     [Parameter]
     public string? id { get; set; }
 
-    private WebAPI.Domain.Entities.Student? student;
+    private StudentEM? student;
     public bool Flag = false;
 
     protected override async Task OnInitializedAsync()
@@ -78,7 +78,7 @@
     {
         student = await GetStudent();
     }
-    async Task<WebAPI.Domain.Entities.Student> GetStudent()
+    async Task<StudentEM> GetStudent()
     {
         var student = await studentService.ReadAsync(id);
         return student;

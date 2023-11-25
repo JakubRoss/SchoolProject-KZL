@@ -1,9 +1,10 @@
-﻿using Cabanoss.Core.Repositories.Impl;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using School.Infrastructure.Entities;
+using School.Infrastructure.Interfaces;
 using School.Infrastructure.Persistance;
-using School.WebAPI.Domain.Entities;
+using School.Infrastructure.Repository;
 
 namespace School.Infrastructure.Extensions
 {

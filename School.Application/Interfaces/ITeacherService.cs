@@ -1,4 +1,6 @@
-﻿using School.Domain.Model.TeacherModels;
+﻿using School.Domain.Entities;
+using School.Domain.Model.TeacherModels;
+using School.Infrastructure.Entities;
 
 namespace School.Application.Interfaces
 {
@@ -7,10 +9,10 @@ namespace School.Application.Interfaces
         //CRUD
         Task CreateAsync(TeacherDto teacherDto);
         Task DeleteAsync(string teacherId);
-        Task<WebAPI.Domain.Entities.Teacher> ReadAsync(string teacherId);
+        Task<Teacher> ReadAsync(string teacherId);
         Task UpdateAsync(TeacherDto teacherDto, string teacherId);
 
         //
-        Task<List<WebAPI.Domain.Entities.Teacher>> ReadAllAsync();
+        Task<List<Teacher>> ReadAllAsync();
     }
 }

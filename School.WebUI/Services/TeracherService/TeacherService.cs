@@ -1,5 +1,5 @@
-﻿using School.Domain.Model.TeacherModels;
-using School.WebAPI.Domain.Entities;
+﻿using School.Domain.Entities;
+using School.Domain.Model.TeacherModels;
 
 namespace School.WebUI.Services.TeracherService
 {
@@ -11,7 +11,7 @@ namespace School.WebUI.Services.TeracherService
         {
             _httpClient = httpClient;
         }
-        public List<WebAPI.Domain.Entities.Teacher> Teachers { get; set; } = new List<WebAPI.Domain.Entities.Teacher>();
+        public List<TeacherEM> Teachers { get; set; } = new List<TeacherEM>();
         public async Task CreateAsync(TeacherDto teacherDto)
         {
             await _httpClient.PostAsJsonAsync("/api/Teacher", teacherDto);
@@ -24,18 +24,18 @@ namespace School.WebUI.Services.TeracherService
 
         public async Task ReadAllAsync()
         {
-            var students = await _httpClient.GetFromJsonAsync<List<WebAPI.Domain.Entities.Teacher>>("api/Teacher/all");
+            var students = await _httpClient.GetFromJsonAsync<List<TeacherEM>>("api/Teacher/all");
             if (students != null)
                 Teachers = students;
         }
 
-        public async Task<WebAPI.Domain.Entities.Teacher> ReadAsync(string teacherId)
+        public async Task<TeacherEM> ReadAsync(string teacherId)
         {
             var result = await _httpClient.GetAsync($"api/Teacher?teacherId={teacherId}");
-            var teacherN= new Teacher();
+            var teacherN= new TeacherEM();
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var teacherQ= await result.Content.ReadFromJsonAsync<WebAPI.Domain.Entities.Teacher>();
+                var teacherQ= await result.Content.ReadFromJsonAsync<TeacherEM>();
                 if(teacherQ != null)
                     return teacherQ;
                 return teacherN;

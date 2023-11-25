@@ -1,16 +1,16 @@
-﻿using School.Domain.Model.SchoolClassModels;
-using School.WebAPI.Domain.Entities;
+﻿using School.Domain.Entities;
+using School.Domain.Model.SchoolClassModels;
 
 namespace School.WebUI.Services.SchoolClassService
 {
     public interface ISchoolClassService
     {
-        List<SchoolClass> SchoolClasses { get; set; }
+        List<SchoolClassEM> SchoolClasses { get; set; }
         //CRUD SchoolClass
         Task CreateAsync(SchoolClassDto classDto);
         Task DeleteAsync(string classId);
         Task ReadAllAsync();
-        Task<WebAPI.Domain.Entities.SchoolClass> ReadAsync(string classId);
+        Task<SchoolClassEM> ReadAsync(string classId);
         Task UpdateAsync(SchoolClassDto classDto, string classId);
 
         // Adding/Removing Students from SSchoolClass

@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
-using Cabanoss.Core.Repositories.Impl;
 using School.Application.Interfaces;
 using School.Domain.Model.TeacherModels;
+using School.Infrastructure.Interfaces;
 
 namespace School.Application.Services.Teacher
 {
     public class TeacherService : ITeacherService
     {
-        private IBaseRepository<WebAPI.Domain.Entities.Teacher> _baseRepository;
+        private IBaseRepository<Infrastructure.Entities.Teacher> _baseRepository;
         private IMapper _mapper;
 
-        public TeacherService(IBaseRepository<WebAPI.Domain.Entities.Teacher> baseRepository, IMapper mapper)
+        public TeacherService(IBaseRepository<Infrastructure.Entities.Teacher> baseRepository, IMapper mapper)
         {
             _baseRepository = baseRepository;
             _mapper = mapper;
         }
-        async Task<WebAPI.Domain.Entities.Teacher> GetTeacher(string teacherId)
+        async Task<Infrastructure.Entities.Teacher> GetTeacher(string teacherId)
         {
             Guid parsedId;
             if (Guid.TryParse(teacherId, out parsedId))
@@ -32,10 +32,10 @@ namespace School.Application.Services.Teacher
         //CRUD Operations
         public async Task CreateAsync(TeacherDto teacherDto)
         {
-            var teacher = _mapper.Map<WebAPI.Domain.Entities.Teacher>(teacherDto);
+            var teacher = _mapper.Map<Infrastructure.Entities.Teacher>(teacherDto);
             await _baseRepository.CreateAsync(teacher);
         }
-        public async Task<WebAPI.Domain.Entities.Teacher> ReadAsync(string teacherId)
+        public async Task<Infrastructure.Entities.Teacher> ReadAsync(string teacherId)
         {
             return await GetTeacher(teacherId);
         }
@@ -54,7 +54,7 @@ namespace School.Application.Services.Teacher
 
 
         //
-        public async Task<List<WebAPI.Domain.Entities.Teacher>> ReadAllAsync()
+        public async Task<List<Infrastructure.Entities.Teacher>> ReadAllAsync()
         {
             return await _baseRepository.ReadAllAsync();
         }

@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using School.Infrastructure.Interfaces;
 using School.Infrastructure.Persistance;
 using System.Linq.Expressions;
 
-namespace Cabanoss.Core.Repositories.Impl
+namespace School.Infrastructure.Repository
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {

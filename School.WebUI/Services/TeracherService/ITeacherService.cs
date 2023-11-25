@@ -1,15 +1,15 @@
-﻿using School.Domain.Model.TeacherModels;
-using School.WebAPI.Domain.Entities;
+﻿using School.Domain.Entities;
+using School.Domain.Model.TeacherModels;
 
 namespace School.WebUI.Services.TeracherService
 {
     public interface ITeacherService
     {
-        public List<Teacher> Teachers { get; set; }
+        public List<TeacherEM> Teachers { get; set; }
         //CRUD
         Task CreateAsync(TeacherDto teacherDto);
         Task DeleteAsync(string teacherId);
-        Task<WebAPI.Domain.Entities.Teacher> ReadAsync(string teacherId);
+        Task<TeacherEM> ReadAsync(string teacherId);
         Task UpdateAsync(TeacherDto teacherDto, string teacherId);
 
         //

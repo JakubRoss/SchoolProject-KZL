@@ -1,6 +1,5 @@
-﻿using School.Domain.Model.StudentModels;
-using School.WebAPI.Domain.Entities;
-using System.Net.Http.Json;
+﻿using School.Domain.Entities;
+using School.Domain.Model.StudentModels;
 
 namespace School.WebUI.Services.StudentService
 {
@@ -13,9 +12,9 @@ namespace School.WebUI.Services.StudentService
             _httpClient = httpClient;
          }
 
-        public List<Student> Students { get; set; } = new List<Student>();
+        public List<StudentEM> Students { get; set; } = new List<StudentEM>();
         public StudentDto StudentDto { get; set; } = new StudentDto();
-        public Student student { get; set; } = new Student();
+        public StudentEM student { get; set; } = new StudentEM();
 
         public async Task CreateAsync()
         {
@@ -29,17 +28,17 @@ namespace School.WebUI.Services.StudentService
 
         public async Task ReadAllAsync()
         {
-            var students = await _httpClient.GetFromJsonAsync<List<Student>>("api/student/all");
+            var students = await _httpClient.GetFromJsonAsync<List<StudentEM>>("api/student/all");
             if(students != null)
                 Students = students;
         }
 
-        public async Task<Student> ReadAsync(string studentId)
+        public async Task<StudentEM> ReadAsync(string studentId)
         {
             var result = await _httpClient.GetAsync($"api/Student?studentId={studentId}");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                return await result.Content.ReadFromJsonAsync<Student>();
+                return await result.Content.ReadFromJsonAsync<StudentEM>();
             }
             return null;
         }

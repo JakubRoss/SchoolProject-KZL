@@ -1,7 +1,5 @@
-﻿using School.Domain.Model.SchoolClassModels;
-using School.WebAPI.Domain.Entities;
-using School.WebUI.Pages.TeacherPages;
-using System.Security.Claims;
+﻿using School.Domain.Entities;
+using School.Domain.Model.SchoolClassModels;
 
 namespace School.WebUI.Services.SchoolClassService
 {
@@ -14,7 +12,7 @@ namespace School.WebUI.Services.SchoolClassService
             _httpClient = httpClient;
         }
 
-        public List<SchoolClass> SchoolClasses { get; set; } = new List<SchoolClass>();
+        public List<SchoolClassEM> SchoolClasses { get; set; } = new List<SchoolClassEM>();
         public async Task AddStudentAsync(string studentId, int classId)
         {
             await _httpClient.PostAsync($"api/Class/students?studentId={studentId}&classId={classId}",null);
@@ -51,21 +49,21 @@ namespace School.WebUI.Services.SchoolClassService
 
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var classes = await result.Content.ReadFromJsonAsync<List<SchoolClass>>();
+                var classes = await result.Content.ReadFromJsonAsync<List<SchoolClassEM>>();
                 if (classes != null)
                     SchoolClasses = classes;
             }
 
         }
 
-        public async Task<SchoolClass> ReadAsync(string classId)
+        public async Task<SchoolClassEM> ReadAsync(string classId)
         {
             var result = await _httpClient.GetAsync($"api/Class?schoolClassId={classId}");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                return await result.Content.ReadFromJsonAsync<SchoolClass>();
+                return await result.Content.ReadFromJsonAsync<SchoolClassEM>();
             }
-            return new SchoolClass();
+            return new SchoolClassEM();
         }
 
         public async Task UpdateAsync(SchoolClassDto classDto, string classId)

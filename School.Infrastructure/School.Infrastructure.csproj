@@ -10,8 +10,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\School.Application\School.Application.csproj" />
-  </ItemGroup>
-
 </Project>

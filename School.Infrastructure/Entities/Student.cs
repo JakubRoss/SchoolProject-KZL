@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace School.WebAPI.Domain.Entities
+namespace School.Infrastructure.Entities
 {
     public class Student
     {
@@ -16,5 +16,5 @@ namespace School.WebAPI.Domain.Entities
         public SchoolClass SchoolClass { get; set; } = default!;
 
     }
-    
+
 }

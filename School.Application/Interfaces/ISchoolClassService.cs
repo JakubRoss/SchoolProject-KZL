@@ -1,4 +1,5 @@
 ﻿using School.Domain.Model.SchoolClassModels;
+using School.Infrastructure.Entities;
 
 namespace School.Application.Interfaces
 {
@@ -7,8 +8,8 @@ namespace School.Application.Interfaces
         //CRUD SchoolClass
         Task CreateAsync(SchoolClassDto classDto);
         Task DeleteAsync(string classId);
-        Task<List<WebAPI.Domain.Entities.SchoolClass>> ReadAllAsync();
-        Task<WebAPI.Domain.Entities.SchoolClass> ReadAsync(string classId);
+        Task<List<SchoolClass>> ReadAllAsync();
+        Task<SchoolClass> ReadAsync(string classId);
         Task UpdateAsync(SchoolClassDto classDto, string classId);
 
         // Adding/Removing Students from SSchoolClass

@@ -1,7 +1,7 @@
 ﻿@page "/teachers/{id}"
 @using School.Domain.Model.StudentModels;
 @using School.Domain.Model.TeacherModels;
-@using School.WebAPI.Domain.Entities;
+@using School.Domain.Entities;
 @using School.WebUI.Services.TeracherService;
 @inject ITeacherService teacherService;
 @inject NavigationManager navigationManager;
@@ -63,7 +63,7 @@
     [Parameter]
     public string? id { get; set; }
 
-    private WebAPI.Domain.Entities.Teacher? teacher;
+    private TeacherEM? teacher;
     public bool Flag = false;
 
     protected override async Task OnInitializedAsync()
@@ -78,7 +78,7 @@
     {
         teacher = await GetTeacher();
     }
-    async Task<WebAPI.Domain.Entities.Teacher> GetTeacher()
+    async Task<TeacherEM> GetTeacher()
     {
         var student = await teacherService.ReadAsync(id);
         return student;

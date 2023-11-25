@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Cabanoss.Core.Repositories.Impl
+namespace School.Infrastructure.Interfaces
 {
     public interface IBaseRepository<TEntity> where TEntity : class
     {
@@ -11,6 +11,6 @@ namespace Cabanoss.Core.Repositories.Impl
 
         Task<List<TEntity>> ReadAllAsync();
         Task<List<TEntity>> ReadAllAsync(params Expression<Func<TEntity, object>>[] includes);
-        Task<TEntity> ReadIncludeAsync(Expression<Func<TEntity, bool>> predicate,params Expression<Func<TEntity, object>>[] include);
+        Task<TEntity> ReadIncludeAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] include);
     }
 }

@@ -2,7 +2,7 @@
 using School.Domain.Model.SchoolClassModels;
 using School.Domain.Model.StudentModels;
 using School.Domain.Model.TeacherModels;
-using School.WebAPI.Domain.Entities;
+using School.Infrastructure.Entities;
 
 namespace School.Application.Model
 {

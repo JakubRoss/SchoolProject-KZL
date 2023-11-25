@@ -1,7 +1,7 @@
 ﻿@page "/class/{id}"
+@using School.Domain.Entities
 @using School.Domain.Model.SchoolClassModels;
 @using School.Domain.Model.StudentModels;
-@using School.WebAPI.Domain.Entities;
 @inject ISchoolClassService ISchoolClassService;
 @inject NavigationManager navigationManager;
 
@@ -168,7 +168,7 @@
     [Parameter]
     public string? id { get; set; }
 
-    private WebAPI.Domain.Entities.SchoolClass? schoolClass;
+    private SchoolClassEM? schoolClass;
     bool EditFlag = false;
     bool StudentListFlag = false;
     bool TeachelistFlag = false;
@@ -186,7 +186,7 @@
     {
         schoolClass = await GetClass();
     }
-    async Task<WebAPI.Domain.Entities.SchoolClass> GetClass()
+    async Task<SchoolClassEM> GetClass()
     {
         var student = await ISchoolClassService.ReadAsync(id);
         return student;

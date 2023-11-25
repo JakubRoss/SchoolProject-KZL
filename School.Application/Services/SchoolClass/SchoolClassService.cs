@@ -1,28 +1,28 @@
 ﻿using AutoMapper;
-using Cabanoss.Core.Repositories.Impl;
 using School.Application.Interfaces;
 using School.Domain.Model.SchoolClassModels;
+using School.Infrastructure.Interfaces;
 
 namespace School.Application.Services.SchoolClass
 {
     public class SchoolClassService : ISchoolClassService
     {
-        private IBaseRepository<WebAPI.Domain.Entities.SchoolClass> _baseRepository;
+        private IBaseRepository<Infrastructure.Entities.SchoolClass> _baseRepository;
         private IMapper _mapper;
-        private IBaseRepository<WebAPI.Domain.Entities.Student> _studentBaseRepository;
-        private IBaseRepository<WebAPI.Domain.Entities.Teacher> _teacherBaseRepository;
+        private IBaseRepository<Infrastructure.Entities.Student> _studentBaseRepository;
+        private IBaseRepository<Infrastructure.Entities.Teacher> _teacherBaseRepository;
 
-        public SchoolClassService(IBaseRepository<WebAPI.Domain.Entities.SchoolClass> baseRepository
+        public SchoolClassService(IBaseRepository<Infrastructure.Entities.SchoolClass> baseRepository
             ,IMapper mapper
-            ,IBaseRepository<WebAPI.Domain.Entities.Student> studentBaseRepository
-            ,IBaseRepository<WebAPI.Domain.Entities.Teacher> teacherBaseRepository )
+            ,IBaseRepository<Infrastructure.Entities.Student> studentBaseRepository
+            ,IBaseRepository<Infrastructure.Entities.Teacher> teacherBaseRepository )
         {
             _baseRepository = baseRepository;
             _mapper = mapper;
             _studentBaseRepository = studentBaseRepository;
             _teacherBaseRepository = teacherBaseRepository;
         }
-        async Task<WebAPI.Domain.Entities.SchoolClass> GetClass(string classId)
+        async Task<Infrastructure.Entities.SchoolClass> GetClass(string classId)
         {
             var schoolClass = await _baseRepository.ReadAsync(id => id.Id.ToString() == classId);
             if (schoolClass == null)
@@ -33,10 +33,10 @@ namespace School.Application.Services.SchoolClass
         //CRUD SchoolClass
         public async Task CreateAsync(SchoolClassDto classDto)
         {
-            var schoolClass = _mapper.Map<WebAPI.Domain.Entities.SchoolClass>(classDto);
+            var schoolClass = _mapper.Map<Infrastructure.Entities.SchoolClass>(classDto);
             await _baseRepository.CreateAsync(schoolClass);
         }
-        public async Task<WebAPI.Domain.Entities.SchoolClass> ReadAsync(string classId)
+        public async Task<Infrastructure.Entities.SchoolClass> ReadAsync(string classId)
         {
             return await _baseRepository.ReadIncludeAsync(i=>i.Id.ToString() == classId
             , s=>s.Students ,t=>t.Teachers);
@@ -56,7 +56,7 @@ namespace School.Application.Services.SchoolClass
 
 
         //
-        public async Task<List<WebAPI.Domain.Entities.SchoolClass>> ReadAllAsync()
+        public async Task<List<Infrastructure.Entities.SchoolClass>> ReadAllAsync()
         {
             return await _baseRepository.ReadAllAsync(i=>i.Students,t=>t.Teachers);
         }

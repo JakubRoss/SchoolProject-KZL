@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace School.WebAPI.Domain.Entities
+namespace School.Infrastructure.Entities
 {
     public class Teacher
     {

@@ -1,4 +1,5 @@
 ﻿using School.Domain.Model.StudentModels;
+using School.Infrastructure.Entities;
 
 namespace School.Application.Interfaces
 {
@@ -7,11 +8,11 @@ namespace School.Application.Interfaces
         //CRUD
         Task CreateAsync(StudentDto studentDto);
         Task DeleteAsync(string studentId);
-        Task<WebAPI.Domain.Entities.Student> ReadAsync(string studentId);
+        Task<Student> ReadAsync(string studentId);
         Task UpdateAsync(StudentDto studentDto, string studentId);
 
         //
-        Task<List<WebAPI.Domain.Entities.Student>> ReadAllAsync();
+        Task<List<Student>> ReadAllAsync();
         Task<List<StudentByPhraseDto>> SearchBy(string phrase);
     }
 }
