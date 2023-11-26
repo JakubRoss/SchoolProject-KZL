@@ -37,8 +37,10 @@
             panelHome = new Panel();
             textHome = new TextBox();
             panelSchool = new Panel();
+            listBoxSchoolClasses = new ListBox();
             menuPanel.SuspendLayout();
             panelHome.SuspendLayout();
+            panelSchool.SuspendLayout();
             SuspendLayout();
             // 
             // menuPanel
@@ -134,27 +136,39 @@
             // panelSchool
             // 
             panelSchool.BackColor = Color.GhostWhite;
+            panelSchool.Controls.Add(listBoxSchoolClasses);
             panelSchool.Location = new Point(287, 21);
             panelSchool.Name = "panelSchool";
             panelSchool.Size = new Size(754, 591);
             panelSchool.TabIndex = 2;
             panelSchool.Visible = false;
             // 
+            // listBoxSchoolClasses
+            // 
+            listBoxSchoolClasses.FormattingEnabled = true;
+            listBoxSchoolClasses.ItemHeight = 15;
+            listBoxSchoolClasses.Location = new Point(80, 56);
+            listBoxSchoolClasses.Name = "listBoxSchoolClasses";
+            listBoxSchoolClasses.Size = new Size(605, 469);
+            listBoxSchoolClasses.TabIndex = 0;
+            // 
             // SchoolKZL
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1068, 634);
+            ControlBox = false;
             Controls.Add(panelSchool);
             Controls.Add(panelHome);
             Controls.Add(menuPanel);
-            FormBorderStyle = FormBorderStyle.None;
+            MaximizeBox = false;
             Name = "SchoolKZL";
             Text = "School KZL";
             TopMost = true;
             menuPanel.ResumeLayout(false);
             panelHome.ResumeLayout(false);
             panelHome.PerformLayout();
+            panelSchool.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -169,5 +183,6 @@
         private TextBox textHome;
         private Button buttonExit;
         private Panel panelSchool;
+        private ListBox listBoxSchoolClasses;
     }
 }
