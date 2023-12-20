@@ -40,14 +40,16 @@ namespace School.WebAPI.Application
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src["Surname"]))
                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src["DateOfBirth"]))
                 .ForMember(dest => dest.GradeAvarage, opt => opt.MapFrom(src => src["GradeAvarage"] == DBNull.Value ? 0.0f : Convert.ToSingle(src["GradeAvarage"])))
-                .ForMember(dest => dest.CalssId, opt => opt.MapFrom(src => src["ClassId"]));
+                .ForMember(dest => dest.CalssId, opt => opt.MapFrom(src => src["SchoolClassId"]));
+
             CreateMap<DataRow, UpdateStudentDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src["Name"]))
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src["Surname"]))
                 //.ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src["DateOfBirth"]))
                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => ((DateTime)src["DateOfBirth"]).Date))
                 .ForMember(dest => dest.GradeAvarage, opt => opt.MapFrom(src => src["GradeAvarage"] == DBNull.Value ? 0.0f : Convert.ToSingle(src["GradeAvarage"])))
-                .ForMember(dest => dest.CalssId, opt => opt.MapFrom(src => src["ClassId"]));
+                .ForMember(dest => dest.CalssId, opt => opt.MapFrom(src => src["SchoolClassId"]));
+
             CreateMap<DataRow, CreateStudentDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src["Name"]))
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src["Surname"]))
